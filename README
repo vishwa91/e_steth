@@ -1,1 +1,10 @@
-This repository contains the file for making a simple stethoscopy. We will be using MSP430G2530 microcontroller for this project. This is part of the Shaastra 2013 Electronics workshop(www.shaastra.org)
+This repository contains the file for making a simple stethoscopy. We will be using MSP430G2553 microcontroller for this project. This is part of the Shaastra 2013 Electronics workshop(www.shaastra.org)
+
+Code examples:
+http://www.ti.com/lit/zip/slac485
+
+Datasheet:
+In this repository
+
+Compiler:
+GCC: gcc-msp430 (Use sudo apt-get install gcc-msp430 to install the toolchain)
