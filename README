@@ -2,9 +2,19 @@ This repository contains the file for making a simple stethoscopy. We will be us
 
 Code examples:
 http://www.ti.com/lit/zip/slac485
+http://processors.wiki.ti.com/index.php/MSP430_LaunchPad
 
 Datasheet:
 In this repository
 
-Compiler:
-GCC: gcc-msp430 (Use sudo apt-get install gcc-msp430 to install the toolchain)
+Required softwares:
+1. gcc-msp430
+2. mspdebug
+3. msp430-libc
+4. msp430mcu
+
+Hardware:
+1. MSP430 Launchpad
+2. MSP430G2553
+3. Breadboard
+
