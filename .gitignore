@@ -1,0 +1,8 @@
+*.sh
+*~
+*.bkp
+*.elf
+*.map
+*.hex
+*.o
+build/*
