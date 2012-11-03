@@ -1,0 +1,5 @@
+ATTRS{idVendor}==&quot;0451&quot;
+ATTRS{idProduct}==&quot;f432&quot;
+MODE=&quot;
+0660&quot;
+GROUP=&quot;plugdev&quot;
