@@ -1,44 +1,36 @@
-#include<msp430g2553.h>
+#include <msp430g2553.h>
+
+void ADCinit(void)
+{
+	ADC10CTL1 |= INCH_5;		// Select the A5 channel
+	ADC10CTL1 |= ADC10DIV_0;	// No division for ADC clock
+	
+	ADC10CTL0 |= SREF_0;		// Vcc, Vss as references
+	ADC10CTL0 |= ADC10SHT_3;	// 16 clocks for sample and hold
+	ADC10CTL0 |= ADC10ON;		// Switch on the ADC	
+	
+	ADC10AE0 |= BIT5;			// P1.5 is input
+}
+
+void CPUinit(void)
+{
+	WDTCTL = WDTPW + WDTHOLD;	// Power down watchdog timer
+	BCSCTL1 = CALBC1_1MHZ;      // Calibrate system to 1MHz
+  	DCOCTL = CALDCO_1MHZ;
+  	BCSCTL2 &= ~(DIVS_3);		// SMCLK = MCLK
+}
+
+unsigned int get_sample(void)
+{
+	// Start conversion
+	ADC10CTL0 |= ADC10SC + ENC;
+	while(ADC10CTL1 & ADC10BUSY);
+	return ADC10MEM;
+}
 
 int main(void)
 {
-	// Configure the clock for 1 MHz.
-	BCSCTL1 = CALBC1_1MHZ;
-	DCOCTL = CALDCO_1MHZ;
-	
-	P1DIR |= BIT0 + BIT6;	// Output LEDs
-	P1DIR &= ~BIT3;			// use switch as input
-	/* Since we dont have a pull up resistor, but only a pull down, we can
-	 short the P1.3 and P1.4, making P1.4 high. This will connect upper terminal
-	 of switch to +5 and lower to gnd through a pull down resistor.
-	
-		+5
-		___  P1.4
-		 |
-		 |__ P1.3
-	  S2\
-		 |
-		 /
-		 \
-		 / Pull down resistor
-		 \
-		 |
-		_|_
-		 _
-		 .
-	*/	 
-		 
-	
-	P1DIR |= BIT4;			// Create upper voltage terminal
-	P1OUT |= BIT4;
-	P1REN = BIT3;			// Enable pull down.
-	while(1)
-	{
-		if( P1IN & BIT3 )
-			P1OUT = BIT0 + BIT4;
-		else
-			P1OUT = BIT6 + BIT4;
-	}
-	
+	CPUinit();
+	ADCinit();
 	return 0;
 }
