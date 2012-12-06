@@ -8,7 +8,7 @@ OUTPUT		= main.hex
 MCU			= msp430g2553
 
 # Declare our CFLAGS.
-CFLAGS 		= -mmcu=$(MCU) -g -Os -Wall -Wunused
+CFLAGS 		= -mmcu=$(MCU) -g -Os -Wall -Wunused -I.
 
 # Declare compiler variables
 
@@ -19,7 +19,7 @@ OBJCOPY		= msp430-objcopy
 
 # Dump all build intermittants in build directory
 
-WORKDIR = ./build
+WORKDIR 	= ./build
 
 # Declare your source file here:
 SRC			= main.c
