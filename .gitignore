@@ -7,3 +7,4 @@
 *.o
 *.wav
 build/*
+images/*

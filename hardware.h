@@ -15,7 +15,7 @@
  ******************************************************************************/
  
 // ADC prototypes
-#include <adc.c>
+#include "adc.c"
 void init_adc(void);
 unsigned int get_sample(void);
 
@@ -23,17 +23,18 @@ unsigned int get_sample(void);
 //#include <7seg.c>
 
 // UART prototypes
-#include <uart.c>
-void uart_init(void);
+#include "uart.c"
+void init_uart(void);
 void send_byte(unsigned char);
 unsigned char receive_byte(void);
 
 // Display driver
-#include <display.c>
-
+#include "display.c"
+/*
 void putchar(unsigned char);
 void puts(char *);
 
 static void xtoa(unsigned long, const unsigned long *);		// For converting Hex to ASCII
 static void puth(unsigned);									// Print Hex values
 void printf(char *, ...);									// printf routine
+*/

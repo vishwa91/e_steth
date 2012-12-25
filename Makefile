@@ -44,4 +44,10 @@ clean:
 
 .PHONY: flash
 flash:main.elf
-	mspdebug rf2500	prog $(WORKDIR)/main.elf
+	mspdebug rf2500	"prog $(WORKDIR)/main.elf"
+.PHONY: serial
+serial:
+	mspdebug rf2500 exit
+	stty 9600 -F /dev/ttyACM0
+	minicom -b 9600 -D /dev/ttyACM0
+	
