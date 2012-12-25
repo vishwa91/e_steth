@@ -1,0 +1,62 @@
+/******************************************************************************
+ *                        Main
+ *
+ * Description: This file is a collaboration of all modules. 
+ *              
+ *		This file is a part of Electronic stethoscope project.
+ *		You can find out more about the project from the README
+ *			
+ *
+ * Author:      Vishwanath & Pavan
+ * Repo:	github.com/vishwa91/e_steth
+ * Date:        06-23-12
+ ******************************************************************************/
+
+#include <msp430g2553.h>
+#include <stdio.h>
+#include "adc.c"
+#include "uart.c"
+#include "filter.c"
+#include "signal.c"
+
+// CPU initialisation routine. The CPU is calibrated to work at 1 MHz.
+void init_cpu(void)
+{    
+  WDTCTL = WDTPW + WDTHOLD;	        // Power down watchdog timer
+  BCSCTL1 = CALBC1_1MHZ;                // Calibrate system to 1MHz
+  DCOCTL = CALDCO_1MHZ;
+  BCSCTL2 &= ~(DIVS_3);		        // SMCLK = MCLK  
+}
+int main(void)
+{
+  // Initialise peripherals first
+  init_cpu();                           // Calibrate CPU to 1 MHz
+  init_adc();                           // ADC for sampling
+  init_uart();                          // UART for logging service
+  
+  // Create the sample data array. This will hold 1024 samples.
+  // After every sample, we will give a 100 cycle delay.
+  log("Starting system.");
+  int data[NDATA];
+  int *output;
+  int *peaks;
+  log("Created pointers.");
+  //data = (int *)malloc(NDATA*sizeof(int));
+  log("Allocated memory.");
+  unsigned int i, time_period;
+  long duration;
+  float avg_duration;
+  // Initialise Timer_A. We will use it to find the time duration between two
+  // samples.
+  TACCTL1 = OUTMOD_7;                   // TACCR1 reset/set
+  TACTL	= TASSEL_2 + MC_0 + ID_0;       // SMCLK, upmode
+  while(1)
+  {
+    time_period = get_sample();
+    send_byte('|');
+    send_byte('0' + time_period/1000);
+    send_byte('0' + (time_period/100)%10);
+    send_byte('0' + (time_period/10)%10);
+    send_byte('0' + time_period%10);
+  }
+}
